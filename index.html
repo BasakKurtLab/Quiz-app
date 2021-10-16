@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+</head>
+<body>
+    <div id="app">
+
+        <div class="container" v-show="step==0">
+            
+            <h1>Vue Quiz</h1>
+            <span>Please enter your name</span>
+            <input type="text" v-model="username" >
+            
+            <button @click="sign">Sign in</button>
+        
+        </div>
+        <div class="container" v-show="step==1">
+          
+            <h1>Wellcome {{username}} <br> Quiz started</h1>
+            
+           <div class="processcontainer"><div  v-bind:style="{width:(questionIndex/quiz.questions.length)* 100 + '%'}" ></div></div>
+            
+            <span id="result">{{(questionIndex/quiz.questions.length)*100}}% complete</span>
+            
+            <div class="question">{{ quiz.questions[questionIndex].text }}</div>
+
+            <div class="options" v-for="(response, index) in quiz.questions[questionIndex].responses" @click="selectOption(index)" :class="{ 'is-selected': userResponses[questionIndex] == index}" :key="index">
+                {{ index | charIndex }}. {{ response.text }}</div>
+            <div class="buttons">
+                <button v-on:click="prev();" :disabled="questionIndex < 1">prev</button>
+                <button :class="(userResponses[questionIndex]==null)?'':'is-active'" v-on:click="next();" :disabled="questionIndex>=quiz.questions.length">{{ (userResponses[questionIndex]==null)?'Skip':'Next' }}</button>
+            </div>
+        
+        </div>
+            
+        <div class="container" v-show="step==2">
+            <h1>You did</h1>
+            <div class="score">Total score: {{ score() }} / {{ quiz.questions.length }}</div>
+            <div class="restart"></div>
+            
+            
+        
+        </div>
+               
+                 
+    
+                
+            
+
+
+
+    </div>
+
+
+
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
